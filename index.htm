@@ -1,13 +1,43 @@
 <html>
 <head>
 <title>star wars novels and comics</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://starwars-fd54.restdb.io/assets/js/eventsource.min.js"></script>
+    <script src="https://starwars-fd54.restdb.io/rest/_jsapi.js"></script>
+<script type="text/javascript">
+
+var db = new restdb("5c4f77a95594726a72eca176");
+
+function getNovels(){
+    var query = {}; // get all records
+    var hints = {"$max": 10, "$orderby": {"_id": -1}}; // top ten, sort by creation id in descending order
+    db.novels.find(query, hints, function(err, res){
+    if (!err){
+        // res is an array of mycollection objects
+        console.log(res);
+        var resLength = res.length;
+        for (var i = 0; i < resLength; i++) {
+            //get all covers and add to div
+            var image = document.createElement("img");
+            image.setAttribute("src", res[i]["cover image"]);
+            image.setAttribute("height", "300px");
+            image.setAttribute("width", "200px");
+            document.querySelector('#gallery').appendChild(image);
+        }
+    }
+    });
+}
+
+</script>
 
 </head>    
 
 <body>
 
 Hello world. 
+<button onclick="getNovels()">Click me</button>
 
+<div id="gallery"></div>
 </body>
 
 </html>
